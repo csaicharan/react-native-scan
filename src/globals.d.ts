@@ -4,4 +4,4 @@ declare global {
 }
 
 // Export {} to make this file a module (avoids isolatedModules error if empty)
-export {}; 
+export {};

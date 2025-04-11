@@ -17,7 +17,7 @@ export default function App() {
       {/* Add some components here to test scanning */}
       <SimpleComponent text="Hello" />
       <SlowComponent />
-      
+
       {/* Render the overlay on top */}
       {__DEV__ && <RenderOverlay />}
     </View>
@@ -28,15 +28,17 @@ export default function App() {
 
 const SimpleComponent = React.memo(({ text }: { text: string }) => {
   console.log('Rendering SimpleComponent');
-  return <Text style={{ margin: 5 }}>Simple: {text}</Text>;
+  return <Text style={styles.simpleText}>Simple: {text}</Text>;
 });
 
 const SlowComponent = () => {
   console.log('Rendering SlowComponent');
   // Simulate some work
   const end = Date.now() + 50; // Simulate 50ms render time
-  while (Date.now() < end) { /* busy wait */ }
-  return <Text style={{ margin: 5, color: 'red' }}>I am slowww</Text>;
+  while (Date.now() < end) {
+    /* busy wait */
+  }
+  return <Text style={styles.slowText}>I am slowww</Text>;
 };
 
 // -------------------------------------
@@ -46,5 +48,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  simpleText: {
+    margin: 5,
+  },
+  slowText: {
+    margin: 5,
+    color: 'red',
   },
 });

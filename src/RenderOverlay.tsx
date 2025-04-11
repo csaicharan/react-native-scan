@@ -26,7 +26,7 @@ const updateHighlights = (newHighlights: Highlight[]) => {
   listeners.forEach((listener) => listener(newHighlights));
 };
 
-// --- Public API --- 
+// --- Public API ---
 
 /**
  * Adds a highlight box to be rendered by the overlay.
@@ -39,7 +39,7 @@ export const addHighlight = (
 ) => {
   // Create opacity animation value for fade effect
   const opacity = new Animated.Value(1);
-  
+
   const newHighlight: Highlight = {
     id,
     ...layout,
@@ -61,7 +61,7 @@ export const addHighlight = (
   // Remove highlights older than HIGHLIGHT_DURATION
   const now = Date.now();
   const updatedHighlights = [
-    ...highlightsState.filter(h => (now - h.timestamp) < HIGHLIGHT_DURATION),
+    ...highlightsState.filter((h) => now - h.timestamp < HIGHLIGHT_DURATION),
     newHighlight,
   ];
 
@@ -72,7 +72,7 @@ export const addHighlight = (
  * Removes a specific highlight by ID
  */
 const removeHighlight = (id: string) => {
-  const updatedHighlights = highlightsState.filter(h => h.id !== id);
+  const updatedHighlights = highlightsState.filter((h) => h.id !== id);
   if (updatedHighlights.length !== highlightsState.length) {
     updateHighlights(updatedHighlights);
   }
@@ -85,7 +85,7 @@ export const clearHighlights = () => {
   updateHighlights([]);
 };
 
-// --- Component --- 
+// --- Component ---
 
 export const RenderOverlay: React.FC = () => {
   const [highlights, setHighlights] = useState<Highlight[]>(highlightsState);
@@ -96,7 +96,7 @@ export const RenderOverlay: React.FC = () => {
     listeners.push(setHighlights);
     // Set initial state in case highlights were added before mount
     setHighlights(highlightsState);
-    
+
     return () => {
       mounted.current = false;
       // Unsubscribe on unmount
@@ -105,7 +105,7 @@ export const RenderOverlay: React.FC = () => {
   }, []);
 
   // On Android, measure() might give coordinates relative to the root view,
-  // on iOS, it might be relative to the window. 
+  // on iOS, it might be relative to the window.
   // `position: 'absolute'` without top/left defaults to 0,0 relative to parent,
   // which should work if the Overlay is rendered at the root.
   // Adjustments might be needed based on testing.
@@ -143,4 +143,4 @@ const styles = StyleSheet.create({
     borderWidth: 2, // Make highlights visible
     backgroundColor: 'rgba(0, 0, 255, 0.05)', // Optional: slight background tint
   },
-}); 
+});
