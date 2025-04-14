@@ -17,10 +17,25 @@ filesToRename.forEach(file => {
   }
 });
 
+// Update package.json to ensure builder-bob version is compatible
+try {
+  const packageJsonPath = path.join(__dirname, 'package.json');
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+  
+  // Force specific versions known to work with Node 18
+  packageJson.devDependencies['react-native-builder-bob'] = '0.18.3';
+  
+  // Write the updated package.json
+  fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+  console.log('Updated package.json with Node 18 compatible versions');
+} catch (error) {
+  console.error('Error updating package.json:', error);
+}
+
 // Install dependencies with Node 18 compatible versions
 console.log('Installing dependencies...');
 try {
-  execSync('npm install', { stdio: 'inherit' });
+  execSync('npm install --legacy-peer-deps', { stdio: 'inherit' });
   console.log('Dependencies installed successfully!');
 } catch (error) {
   console.error('Error installing dependencies:', error);

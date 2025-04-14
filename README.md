@@ -30,7 +30,7 @@ If you're using Node 18.x (such as 18.20.7), follow these steps for compatibilit
    git clone https://github.com/csaicharan/react-native-scan.git
    ```
 
-2. Run the Node 18 compatibility script:
+2. Run the Node 18 compatibility script (will fix the `react-native-builder-bob` version issue):
    ```sh
    cd react-native-scan
    node install-node18.js
@@ -39,9 +39,29 @@ If you're using Node 18.x (such as 18.20.7), follow these steps for compatibilit
 3. Install the library from your local copy:
    ```sh
    # From your project directory
-   npm install /path/to/react-native-scan
+   npm install --save /path/to/react-native-scan
    # or
-   yarn add file:/path/to/react-native-scan
+   yarn add file:/path/to/react-native-scan --ignore-engines
+   ```
+
+   Note: Using the `--ignore-engines` flag with Yarn helps bypass Node version checks.
+
+### Manual Fix for Builder-Bob Error
+
+If you encounter the error: `react-native-builder-bob: The engine "node" is incompatible with this module`, you can manually fix it:
+
+1. Edit package.json in the react-native-scan directory:
+   ```json
+   "devDependencies": {
+     "react-native-builder-bob": "0.18.3"
+   }
+   ```
+
+2. Reinstall with:
+   ```sh
+   npm install --legacy-peer-deps
+   # or
+   yarn install --ignore-engines
    ```
 
 ## Basic Usage
