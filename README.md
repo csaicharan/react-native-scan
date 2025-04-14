@@ -21,6 +21,29 @@ yarn add react-native-scan
 pnpm add react-native-scan
 ```
 
+## Node 18 Compatibility
+
+If you're using Node 18.x (such as 18.20.7), follow these steps for compatibility:
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/csaicharan/react-native-scan.git
+   ```
+
+2. Run the Node 18 compatibility script:
+   ```sh
+   cd react-native-scan
+   node install-node18.js
+   ```
+
+3. Install the library from your local copy:
+   ```sh
+   # From your project directory
+   npm install /path/to/react-native-scan
+   # or
+   yarn add file:/path/to/react-native-scan
+   ```
+
 ## Basic Usage
 
 Add to your app's entry point (e.g., App.tsx or index.js):
