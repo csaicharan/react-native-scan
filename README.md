@@ -25,43 +25,92 @@ pnpm add react-native-scan
 
 If you're using Node 18.x (such as 18.20.7), follow these steps for compatibility:
 
+### Method 1: One-step Installation (Recommended)
+
+1. Copy the entire repository and run the install script:
+   ```sh
+   # Clone the repo to a local directory
+   git clone https://github.com/csaicharan/react-native-scan.git
+   cd react-native-scan
+   
+   # Run the compatibility script
+   node install-node18.js
+   
+   # Return to your project directory
+   cd ..
+   
+   # Install the library from your local copy
+   npm install --save ./react-native-scan
+   # or 
+   yarn add file:./react-native-scan --ignore-engines
+   ```
+
+### Method 2: Manual Installation
+
+If you encounter issues with Method 1, try these manual steps:
+
 1. Clone the repository:
    ```sh
    git clone https://github.com/csaicharan/react-native-scan.git
-   ```
-
-2. Run the Node 18 compatibility script (will fix the `react-native-builder-bob` version issue):
-   ```sh
    cd react-native-scan
-   node install-node18.js
    ```
 
-3. Install the library from your local copy:
+2. Edit package.json to update these fields:
+   ```json
+   {
+     "engines": {
+       "node": ">=14.0.0 <=18.x.x",
+       "npm": ">=6.0.0"
+     },
+     "devDependencies": {
+       "react-native-builder-bob": "^0.18.3"
+       // other dependencies can remain unchanged
+     },
+     "react-native-builder-bob": {
+       "targets": [
+         ["module", { "esm": true }],
+         "commonjs",
+         ["typescript", { "project": "tsconfig.build.json" }]
+       ]
+     }
+   }
+   ```
+
+3. Create a file named `.eslintrc.js` with the following content:
+   ```js
+   module.exports = {
+     root: true,
+     extends: ['@react-native', 'prettier'],
+     plugins: ['prettier'],
+     rules: {
+       'react/react-in-jsx-scope': 'off',
+       'prettier/prettier': [
+         'error',
+         {
+           quoteProps: 'consistent',
+           singleQuote: true,
+           tabWidth: 2,
+           trailingComma: 'es5',
+           useTabs: false,
+         },
+       ],
+     },
+     ignorePatterns: ['node_modules/', 'lib/'],
+   };
+   ```
+
+4. Install dependencies with legacy peer deps:
+   ```sh
+   npm install --legacy-peer-deps
+   npm run prepare
+   ```
+
+5. Install in your project:
    ```sh
    # From your project directory
    npm install --save /path/to/react-native-scan
    # or
    yarn add file:/path/to/react-native-scan --ignore-engines
-   ```
-
-   Note: Using the `--ignore-engines` flag with Yarn helps bypass Node version checks.
-
-### Manual Fix for Builder-Bob Error
-
-If you encounter the error: `react-native-builder-bob: The engine "node" is incompatible with this module`, you can manually fix it:
-
-1. Edit package.json in the react-native-scan directory:
-   ```json
-   "devDependencies": {
-     "react-native-builder-bob": "0.18.3"
-   }
-   ```
-
-2. Reinstall with:
-   ```sh
-   npm install --legacy-peer-deps
-   # or
-   yarn install --ignore-engines
    ```
 
 ## Basic Usage
